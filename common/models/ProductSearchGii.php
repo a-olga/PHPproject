@@ -41,7 +41,7 @@ class ProductSearchGii extends ProductGii
      */
     public function search($params)
     {
-        $query = Product_parent::find();
+        $query = ProductGii::find();
 
         // add conditions that should always apply here
 

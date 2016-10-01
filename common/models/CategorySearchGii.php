@@ -5,10 +5,10 @@ namespace common\models;
 use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use common\models\Category_parent;
+use common\models\CategoryGii;
 
 /**
- * CategorySearch_parent represents the model behind the search form about `common\models\Category_parent`.
+ * CategorySearchGii represents the model behind the search form about `common\models\CategoryGii`.
  */
 class CategorySearchGii extends CategoryGii
 {
@@ -18,7 +18,7 @@ class CategorySearchGii extends CategoryGii
     public function rules()
     {
         return [
-            [['id', 'status'], 'integer'],
+            [['id', 'status', 'parent_id'], 'integer'],
             [['name'], 'safe'],
         ];
     }
@@ -41,7 +41,7 @@ class CategorySearchGii extends CategoryGii
      */
     public function search($params)
     {
-        $query = Category_parent::find();
+        $query = CategoryGii::find();
 
         // add conditions that should always apply here
 
@@ -61,6 +61,7 @@ class CategorySearchGii extends CategoryGii
         $query->andFilterWhere([
             'id' => $this->id,
             'status' => $this->status,
+            'parent_id' => $this->parent_id,
         ]);
 
         $query->andFilterWhere(['like', 'name', $this->name]);

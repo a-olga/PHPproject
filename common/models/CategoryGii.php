@@ -10,6 +10,7 @@ use Yii;
  * @property integer $id
  * @property string $name
  * @property integer $status
+ * @property integer $parent_id
  *
  * @property Product[] $products
  */
@@ -29,8 +30,8 @@ class CategoryGii extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['name'], 'required'],
-            [['status'], 'integer'],
+            [['name', 'parent_id'], 'required'],
+            [['status', 'parent_id'], 'integer'],
             [['name'], 'string', 'max' => 255],
         ];
     }
@@ -44,6 +45,7 @@ class CategoryGii extends \yii\db\ActiveRecord
             'id' => 'ID',
             'name' => 'Name',
             'status' => 'Status',
+            'parent_id' => 'Parent ID',
         ];
     }
 

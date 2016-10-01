@@ -41,7 +41,7 @@ class ImageSearchGii extends ImageGii
      */
     public function search($params)
     {
-        $query = Image_parent::find();
+        $query = ImageGii::find();
 
         // add conditions that should always apply here
 
