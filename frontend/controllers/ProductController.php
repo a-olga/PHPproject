@@ -39,7 +39,7 @@ class ProductController extends Controller
         $dataProvider = new ActiveDataProvider([
             'query' => Product::find()->where(['status' => Product::STATUS_ACTIVE]),
             'pagination' => [
-                'pageSize' => 12,
+                'pageSize' => 9,
             ],
         ]);
         $this->view->title = 'Product List';

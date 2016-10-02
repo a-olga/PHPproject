@@ -13,13 +13,13 @@ echo ListView::widget([
 
     'options' => [
         'tag' => 'div',
-        'class' => 'col-sm-12 product-list',
+        'class' => 'product-list',
         'id' => 'product-list',
     ],
 
     'itemOptions' => [
         'tag' => 'div',
-        'class' => 'col-sm-4 product-item',
+        'class' => 'col-md-4 product-item',
     ],
 
     'emptyText' => 'List is empty.',

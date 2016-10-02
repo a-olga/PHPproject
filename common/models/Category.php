@@ -3,6 +3,7 @@
 namespace common\models;
 
 use Yii;
+use yii\helpers\ArrayHelper;
 
 /**
  * This is the model class for table "categories".
@@ -41,4 +42,21 @@ class Category extends CategoryGii
     {
         return $this->hasMany(Product::className(), ['category_id' => 'id'])->where(['status' => Product::STATUS_ACTIVE]);
     }
+
+    public static function getList()
+    {
+        $categoryArray = self::find()
+            ->select(['id', 'parent_id', 'name'])
+            ->where(['status' => self::STATUS_ACTIVE])
+            ->orderBy('parent_id ASC')
+            ->asArray()
+            ->all();
+        $categories = [];
+        foreach ($categoryArray as $category) {
+            $categories[$category['parent_id']][$category['id']] = $category;
+        }
+        return $categories;
+    }
+    
+    
 }

@@ -10,6 +10,9 @@ use yii\widgets\Breadcrumbs;
 use frontend\assets\AppAsset;
 use common\widgets\Alert;
 
+
+use common\models\Category;
+
 AppAsset::register($this);
 ?>
 <?php $this->beginPage() ?>
@@ -58,16 +61,44 @@ AppAsset::register($this);
     ]);
     NavBar::end();
     ?>
-<!--    <div class="row">-->
-<!--        <div class="col-xs-3"></div>-->
-<!--        <div class="col-xs-9">-->
+
     <div class="container">
         <?= Breadcrumbs::widget([
             'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
         ]) ?>
         <?= Alert::widget() ?>
-        <?= $content ?>
-<!--        </div>-->
+
+
+            <div class="row">
+                <div class="col-md-3">
+                    <div class = "category-list">
+                        <?php
+                        $categoryList = Category::getList();
+
+    //                    echo '<pre>';
+    //                    print_r($categoryList); exit;
+
+                        function viewCategories($categories, $parent_id = 0){
+                            if(is_array($categories) and isset($categories[$parent_id])){
+                                $html = '<ul  class="category-parent">';
+                                foreach($categories[$parent_id] as $category){
+                                    $html .= '<li class="category-item"><a href = "#">'.$category['name'] . '</a>';
+                                    $html .=  viewCategories($categories, $category['id']);
+                                    $html .= '</li>';
+                                }
+                                $html .= '</ul>';
+                            }
+                            else return null;
+                            return $html;
+                        }
+                        echo viewCategories($categoryList);
+                        ?>
+                    </div>
+                </div>
+                <div class="col-md-9">
+                    <?= $content ?>
+                </div>
+            </div>
     </div>
     
 </div>

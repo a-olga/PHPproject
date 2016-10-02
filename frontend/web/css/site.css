@@ -172,3 +172,28 @@ h4 {
      max-height: 400px;
      margin: auto;
  }
+
+.category-parent {
+    list-style-type: none;
+    list-style-position: inside;
+    margin: 0;
+    padding: 0;
+    border-left: 10px solid #e0e1e2;
+}
+
+.category-item a{
+    display: block;
+    color: #2b669a;
+    line-height: 2;
+    border: 1px solid #e0e1e2;
+    padding-left: 10px;
+    box-sizing: content-box;
+}
+
+.category-item a:hover {
+    margin-left: 0;
+    border-color: #c0c3c6;
+    color: #204d74;
+    text-decoration: none;
+
+}
