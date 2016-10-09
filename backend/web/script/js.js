@@ -38,16 +38,19 @@ $(document).ready(function() {
         });
     });
 
-    // $('.show-images-button').on('click', function() {
-    //     var productId = $(this).attr('id');
-    //     $.ajax({
-    //         type: "POST",
-    //         url: "index.php?r=product/show-images",
-    //         data: { id: productId}
-    //      }); //.done(function() {
-    //     //     // product.closest('tr').remove();
-    //     // }).fail(function () {
-    //     //     alert('Request is NOT completed');
-    //     // });
-    // });
+    $('.delete-image-button').on('click', function() {
+        if (confirm('Do you really want to delete this image?')){
+            var imageId = $(this).attr('id');
+            var imageDiv = $(this).closest('div');
+            $.ajax({
+                type: "POST",
+                url: "index.php?r=product/delete-image",
+                data: { id: imageId}
+            }).done(function() {
+                imageDiv.remove();
+            }).fail(function () {
+                alert('Request is NOT completed');
+            });
+        }
+    });
 });

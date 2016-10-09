@@ -5,12 +5,13 @@ namespace backend\controllers;
 use common\models\ProductSearchInactive;
 use Yii;
 use common\models\Product;
+use common\models\Image;
 use common\models\ProductSearch;
-use common\models\ImageSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\web\UploadedFile;
+
 
 /**
  * ProductController implements the CRUD actions for Product model.
@@ -91,7 +92,7 @@ class ProductController extends Controller
             $model->assignImages($model);
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
-            return $this->render('create', [
+            return $this->render('update', [
                 'model' => $model,
             ]);
         }
@@ -129,8 +130,8 @@ class ProductController extends Controller
 
     public function actionInactive()
     {
-        $searchModel = new ProductSearchInactive();
-        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        $searchModel = new ProductSearch();
+        $dataProvider = $searchModel->searchInactive(Yii::$app->request->queryParams);
 
         return $this->render('inactive', [
             'searchModel' => $searchModel,
@@ -146,30 +147,26 @@ class ProductController extends Controller
     public function actionRestore()
     {
         if ($id = Yii::$app->request->post('id')) {
-            if ($model = Product::findOne($id)) {
+            if ($model = Product::findInactive()->where(['id' => $id])->one()) {
                 return $model->restore();
+            } else {
+                throw new NotFoundHttpException('Something went wrong.');
             }
         } else {
             throw new NotFoundHttpException('Something went wrong.');
         }
     }
 
-    public function actionShowImages()
+    public function actionDeleteImage()
     {
-//        if ($id = Yii::$app->request->post('id')) {
-//            if ($model = Product::findOne($id)) {
-//                //$images = $model->getImages();
-//                $searchModel = new ImageSearch();
-//                $dataProvider = $searchModel->searchByProductId(Yii::$app->request->queryParams, $id);
-////var_dump($dataProvider); exit;
-//                return $this->redirect(['image/index'], [
-//                    'searchModel' => $searchModel,
-//                    'dataProvider' => $dataProvider,
-//                ]);
-//            }
-//        } else {
-//            throw new NotFoundHttpException('Something went wrong.');
-//        }
+        if ($id = Yii::$app->request->post('id')) {
+            if ($model = Image::findOne($id)) {
+                return $model->safeDelete();
+            } else{
+                throw new NotFoundHttpException('Something went wrong.');
+            }
+        } else {
+            throw new NotFoundHttpException('Something went wrong.');
+        }
     }
-
 }

@@ -14,6 +14,13 @@ $this->params['breadcrumbs'][] = 'Update';
 
     <h1><?= Html::encode($this->title) ?></h1>
 
+    <?php
+    foreach($model->getImages()->all() as $image){
+        echo '<div class = "view-image">' . Html::img($image->link,['id' => $image->id, 'class' => 'product-image', 'style'=>'width: 70px; height: auto']);
+        echo Html::button('Delete', ['id' => $image->id, 'class' => 'delete-image-button btn btn-default']). '</div>';
+    }
+    ?>
+
     <?= $this->render('_form', [
         'model' => $model,
     ]) ?>

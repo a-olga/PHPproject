@@ -2,6 +2,7 @@
 
 use yii\helpers\Html;
 use yii\grid\GridView;
+use common\widgets\ActionColumnForInactive;
 
 /* @var $this yii\web\View */
 /* @var $searchModel common\models\CategorySearch */
@@ -45,8 +46,8 @@ $this->params['breadcrumbs'][] = $this->title;
 
                 },
             ],
-            
-            ['class' => 'yii\grid\ActionColumnForInactive'],
+
+            ['class' => ActionColumnForInactive::class],
         ],
     ]); ?>
 </div>

@@ -9,7 +9,8 @@ use yii\bootstrap\NavBar;
 use yii\widgets\Breadcrumbs;
 use frontend\assets\AppAsset;
 use common\widgets\Alert;
-
+use yii\helpers\Url;
+use frontend\components\Cart;
 
 use common\models\Category;
 
@@ -41,6 +42,7 @@ AppAsset::register($this);
         ['label' => 'Home', 'url' => ['/site/index']],
         ['label' => 'About', 'url' => ['/site/about']],
         ['label' => 'Contact', 'url' => ['/site/contact']],
+//        ['label' => 'Contact', 'url' => ['/site/contact']],
     ];
     if (Yii::$app->user->isGuest) {
         $menuItems[] = ['label' => 'Signup', 'url' => ['/site/signup']];
@@ -55,12 +57,24 @@ AppAsset::register($this);
             . Html::endForm()
             . '</li>';
     }
+
+
     echo Nav::widget([
         'options' => ['class' => 'navbar-nav navbar-right'],
         'items' => $menuItems,
     ]);
+
+
     NavBar::end();
     ?>
+
+    <div class = "col-md-12 cart-container">
+        <?=Html::a(
+            Html::tag('span', '', ['class' => 'cart glyphicon glyphicon-shopping-cart']) . ' '
+                . Html::tag('span', Cart::getStatus(), ['class' => 'cart-status']) . '&nbsp;&nbsp;&nbsp;&nbsp;',
+                Url::to(['/cart/index']))?>
+        <?=Html::a(Html::tag('span', '', ['class' => 'glyphicon glyphicon-trash empty-cart']),  Url::to(['cart/empty-cart']))?>
+    </div>
 
     <div class="container">
         <?= Breadcrumbs::widget([
@@ -68,21 +82,20 @@ AppAsset::register($this);
         ]) ?>
         <?= Alert::widget() ?>
 
-
             <div class="row">
                 <div class="col-md-3">
                     <div class = "category-list">
                         <?php
-                        $categoryList = Category::getList();
-
-    //                    echo '<pre>';
-    //                    print_r($categoryList); exit;
-
                         function viewCategories($categories, $parent_id = 0){
                             if(is_array($categories) and isset($categories[$parent_id])){
                                 $html = '<ul  class="category-parent">';
                                 foreach($categories[$parent_id] as $category){
-                                    $html .= '<li class="category-item"><a href = "#">'.$category['name'] . '</a>';
+                                    $html .= '<li class="category-item">'. Html::a($category['name'], Url::to([
+                                            'product/index',
+                                            "ProductSearch" =>
+                                                ['category_id' => $category['id']]
+                                            
+                                        ]));
                                     $html .=  viewCategories($categories, $category['id']);
                                     $html .= '</li>';
                                 }
@@ -91,7 +104,7 @@ AppAsset::register($this);
                             else return null;
                             return $html;
                         }
-                        echo viewCategories($categoryList);
+                        echo viewCategories(Category::getList());
                         ?>
                     </div>
                 </div>
@@ -100,7 +113,6 @@ AppAsset::register($this);
                 </div>
             </div>
     </div>
-    
 </div>
 
 <footer class="footer">

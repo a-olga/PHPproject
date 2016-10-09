@@ -5,7 +5,6 @@ namespace backend\controllers;
 use Yii;
 use common\models\Category;
 use common\models\CategorySearch;
-use common\models\CategorySearchInactive;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -124,8 +123,8 @@ class CategoryController extends Controller
 
     public function actionInactive()
     {
-        $searchModel = new CategorySearchInactive();
-        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        $searchModel = new CategorySearch();
+        $dataProvider = $searchModel->searchInactive(Yii::$app->request->queryParams);
 
         return $this->render('inactive', [
             'searchModel' => $searchModel,
@@ -141,7 +140,7 @@ class CategoryController extends Controller
     public function actionRestore()
     {
         if ($id = Yii::$app->request->post('id')) {
-            if ($model = Category::findOne($id)) {
+            if ($model = Category::findInactive()->where(['id' => $id])->one()) {
                 return $model->restore();
             }
         } else {

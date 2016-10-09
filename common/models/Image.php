@@ -25,9 +25,12 @@ class Image extends ImageGii
 
     const STATUS_INACTIVE = 0;
     const STATUS_ACTIVE = 1;
+    const NO_IMAGE_URL = '@imagePath/no_image.png';
 
     public $file;
     
+
+
     public function behaviors()
     {
         return [
@@ -51,6 +54,16 @@ class Image extends ImageGii
         return array_merge( parent::rules(),  $newRules);
     }
 
+    public static function find()
+    {
+        return parent::find()->where(['status' => self::STATUS_ACTIVE]);
+    }
+
+    public static function findInactive()
+    {
+        return parent::find()->where(['status' => self::STATUS_INACTIVE]);
+    }
+
     public function safeDelete()
     {
         $this->status = self::STATUS_INACTIVE;
@@ -63,8 +76,8 @@ class Image extends ImageGii
         $this->save();
     }
 
-    public function getProduct()
-    {
-        return $this->hasOne(Product::className(), ['id' => 'product_id'])->where(['status' => Product::STATUS_ACTIVE]);
-    }
+//    public function getProduct()
+//    {
+//        return $this->hasOne(Product::className(), ['id' => 'product_id'])->where(['status' => Product::STATUS_ACTIVE]);
+//    }
 }

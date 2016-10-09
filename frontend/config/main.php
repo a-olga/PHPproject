@@ -11,12 +11,12 @@ return [
     'basePath' => dirname(__DIR__),
     'bootstrap' => ['log'],
     'controllerNamespace' => 'frontend\controllers',
-    'modules' => [
-    'gii' => [
-        'class' => 'yii\gii\Module',
-        'allowedIPs' => ['127.0.0.1', '::1', '192.168.0.*', '192.168.178.20',  '178.150.141.227']
-        ]
-    ],
+//    'modules' => [
+//    'gii' => [
+//        'class' => 'yii\gii\Module',
+//        'allowedIPs' => ['127.0.0.1', '::1', '192.168.0.*', '192.168.178.20',  '178.150.141.227']
+//        ]
+//    ],
     'components' => [
         'request' => [
             'csrfParam' => '_csrf-frontend',
@@ -41,6 +41,9 @@ return [
         ],
         'errorHandler' => [
             'errorAction' => 'site/error',
+        ],
+        'cart' => [
+            'class' => 'frontend\components\Cart'
         ],
         /*
         'urlManager' => [

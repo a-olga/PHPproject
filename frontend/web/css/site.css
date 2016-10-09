@@ -186,7 +186,7 @@ h4 {
     color: #2b669a;
     line-height: 2;
     border: 1px solid #e0e1e2;
-    padding-left: 10px;
+    padding: 0 10px;
     box-sizing: content-box;
 }
 
@@ -196,4 +196,15 @@ h4 {
     color: #204d74;
     text-decoration: none;
 
+}
+
+.cart-container {
+    text-align: right;
+    padding: 60px 10px 10px;
+    margin-bottom: 5px;
+    border: 1px solid #e0e1e2;
+}
+
+.cart-container a:hover{
+    text-decoration: none;
 }

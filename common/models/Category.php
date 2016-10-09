@@ -3,7 +3,6 @@
 namespace common\models;
 
 use Yii;
-use yii\helpers\ArrayHelper;
 
 /**
  * This is the model class for table "categories".
@@ -26,6 +25,16 @@ class Category extends CategoryGii
         return array_merge( parent::rules(),  $newRules);
     }
 
+    public static function find()
+    {
+        return parent::find()->where(['status' => self::STATUS_ACTIVE]);
+    }
+
+    public static function findInactive()
+    {
+        return parent::find()->where(['status' => self::STATUS_INACTIVE]);
+    }
+
     public function safeDelete()
     {
         $this->status = self::STATUS_INACTIVE;
@@ -38,16 +47,16 @@ class Category extends CategoryGii
         $this->save();
     }
 
-    public function getProducts()
-    {
-        return $this->hasMany(Product::className(), ['category_id' => 'id'])->where(['status' => Product::STATUS_ACTIVE]);
-    }
+//    public function getProducts()
+//    {
+//        return $this->hasMany(Product::className(), ['category_id' => 'id'])->where(['status' => Product::STATUS_ACTIVE]);
+//    }
 
     public static function getList()
     {
         $categoryArray = self::find()
             ->select(['id', 'parent_id', 'name'])
-            ->where(['status' => self::STATUS_ACTIVE])
+//            ->where(['status' => self::STATUS_ACTIVE])
             ->orderBy('parent_id ASC')
             ->asArray()
             ->all();

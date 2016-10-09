@@ -6,6 +6,8 @@ use yii\grid\GridView;
 /* @var $this yii\web\View */
 /* @var $searchModel common\models\CategorySearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
+use common\widgets\ActionColumnForInactive;
+
 
 $this->title = 'Images';
 $this->params['breadcrumbs'][] = $this->title;
@@ -67,7 +69,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 },
             ],
 
-            ['class' => 'yii\grid\ActionColumnForInactive'],
+            ['class' => ActionColumnForInactive::class],
         ],
     ]); ?>
 </div>

@@ -10,6 +10,7 @@ use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\web\UploadedFile;
+use yii\data\ActiveDataProvider;
 
 /**
  * ImageController implements the CRUD actions for Image model.
@@ -70,7 +71,7 @@ class ImageController extends Controller
             if (UploadedFile::getInstance($model, 'file')){
                 $model->file = UploadedFile::getInstance($model, 'file');
                 $model->file->saveAs('uploads/' . $model->file->baseName . '.' . $model->file->extension, false);
-                $model->link = '/yiiapp/backend/web/uploads/' . $model->file->baseName . '.' . $model->file->extension;
+                $model->link = '@imagePath/' . $model->file->baseName . '.' . $model->file->extension;
                 $model->save();
             }
             return $this->redirect(['view', 'id' => $model->id]);
@@ -94,7 +95,7 @@ class ImageController extends Controller
             if (UploadedFile::getInstance($model, 'file')){
                 $model->file = UploadedFile::getInstance($model, 'file');
                 $model->file->saveAs('uploads/' . $model->file->baseName . '.' . $model->file->extension, false);
-                $model->link = '/yiiapp/backend/web/uploads/' . $model->file->baseName . '.' . $model->file->extension;
+                $model->link = '@imagePath/' . $model->file->baseName . '.' . $model->file->extension;
                 $model->save();
             }
             return $this->redirect(['view', 'id' => $model->id]);
@@ -103,7 +104,7 @@ class ImageController extends Controller
                 'model' => $model,
             ]);
         }
-    }
+   }
 //
 //    /**
 //     * Deletes an existing Image model.
@@ -135,8 +136,8 @@ class ImageController extends Controller
 
     public function actionInactive()
     {
-        $searchModel = new ImageSearchInactive();
-        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        $searchModel = new ImageSearch();
+        $dataProvider = $searchModel->searchInactive(Yii::$app->request->queryParams);
         return $this->render('inactive', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
@@ -151,7 +152,7 @@ class ImageController extends Controller
     public function actionRestore()
     {
         if ($id = Yii::$app->request->post('id')) {
-            if ($model = Image::findOne($id)) {
+            if ($model = Image::findInactive()->where(['id' => $id])->one()) {
                 return $model->restore();
             }
         } else {

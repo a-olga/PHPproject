@@ -2,15 +2,17 @@
 use yii\helpers\Html;
 use yii\helpers\HtmlPurifier;
 use yii\helpers\Url;
+use common\models\Image;
 ?>
 <div class = "product-item-inner">
     <?php
 
-    if ($image = $model->getImages()->one()){
-        echo Html::img($image->link, ['id' => $model->id, 'class' => 'product-image img-responsive',]);
+    if ($model->getImages()->one()){
+        $imageLink = $model->getImages()->one()->link;
     } else {
-        echo Html::img('../../backend/web/uploads/no_image.png', ['id' => $model->id, 'class' => 'img-responsive product-image']);
+        $imageLink = Image::NO_IMAGE_URL;
     }
+    echo Html::img($imageLink, ['id' => $model->id, 'class' => 'product-image img-responsive',]);
     ?>
 
     <h3>
@@ -29,6 +31,6 @@ use yii\helpers\Url;
     </div>
         <?= Html::button(
             Html::tag('span', '', ['class' => 'glyphicon glyphicon-shopping-cart'])
-            .' Add to cart', ['class' => 'add-to-cart btn btn-success']);
+            .' Add to cart', ['id' => $model->id, 'class' => 'add-to-cart btn btn-success']);
         ?>
 </div>

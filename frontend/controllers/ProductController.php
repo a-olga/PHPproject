@@ -2,6 +2,7 @@
 
 namespace frontend\controllers;
 
+use common\models\ProductSearch;
 use Yii;
 use common\models\Product;
 use yii\web\Controller;
@@ -10,6 +11,7 @@ use yii\filters\VerbFilter;
 use yii\web\UploadedFile;
 use yii\data\ActiveDataProvider;
 use yii\helpers\Html;
+use yii\data\Pagination;
 /**
  * ProductController implements the CRUD actions for Product model.
  */
@@ -36,15 +38,13 @@ class ProductController extends Controller
      */
     public function actionIndex()
     {
-        $dataProvider = new ActiveDataProvider([
-            'query' => Product::find()->where(['status' => Product::STATUS_ACTIVE]),
-            'pagination' => [
-                'pageSize' => 9,
-            ],
-        ]);
+        $searchModel = new ProductSearch();
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams, 9);
+
         $this->view->title = 'Product List';
         return $this->render('index', ['listDataProvider' => $dataProvider]);
     }
+    
 
     /**
      * Displays a single Product model.

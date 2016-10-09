@@ -79,7 +79,8 @@ $this->params['breadcrumbs'][] = $this->title;
 //                'label'=> '',
 //                'format' => 'raw',
 //                'value' => function($model) {
-//                    return Html::a('Find images', ['id' => $model->id, 'class' => 'show-images-button btn btn-default']);
+////                    return Html::button('Find images', ['id' => $model->id, 'class' => 'show-images-button btn btn-default']);
+//                    return Html::a('Find images', Url::to(['image/index-filtered', 'product_id' => $model->id]), ['class' => 'btn btn-success']);
 //
 //                },
 //            ],

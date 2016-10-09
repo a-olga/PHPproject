@@ -41,7 +41,17 @@ class Product extends ProductGii
             [['imageFiles'], 'file', 'skipOnEmpty' => true, 'extensions' => 'png, jpg, jpeg'],
             [['status'],'default','value' => self::STATUS_ACTIVE],
         ];
-        return array_merge( parent::rules(),  $newRules);
+        return array_merge(parent::rules(),  $newRules);
+    }
+
+    public static function find()
+    {
+        return parent::find()->where(['status' => self::STATUS_ACTIVE]);
+    }
+
+    public static function findInactive()
+    {
+        return parent::find()->where(['status' => self::STATUS_INACTIVE]);
     }
 
     public function assignImages($model)
@@ -50,7 +60,7 @@ class Product extends ProductGii
             foreach ($this->imageFiles as $file) {
                 $file->saveAs('uploads/' . $file->baseName . '.' . $file->extension, false);
                 $modelPhoto = new Image();
-                $modelPhoto->link =  '/yiiapp/backend/web/uploads/' . $file->baseName . '.' . $file->extension;
+                $modelPhoto->link =  '@imagePath/' . $file->baseName . '.' . $file->extension;
                 $modelPhoto->status = Image::STATUS_ACTIVE;
                 $modelPhoto->product_id = $model->id;
                 $modelPhoto->created_at = time();
@@ -81,10 +91,10 @@ class Product extends ProductGii
         $this->save();
     }
 
-    public function getImages()
-    {
-        return $this->hasMany(Image::className(), ['product_id' => 'id'])->where(['status' => Image::STATUS_ACTIVE]);
-    }
+//    public function getImages()
+//    {
+//        return $this->hasMany(Image::className(), ['product_id' => 'id'])->where(['status' => Image::STATUS_ACTIVE]);
+//    }
 
 //    public function getInactiveImages()
 //    {
@@ -94,8 +104,8 @@ class Product extends ProductGii
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getCategory()
-    {
-        return $this->hasOne(Category::className(), ['id' => 'category_id'])->where(['status' => Category::STATUS_ACTIVE]);
-    }
+//    public function getCategory()
+//    {
+//        return $this->hasOne(Category::className(), ['id' => 'category_id'])->where(['status' => Category::STATUS_ACTIVE]);
+//    }
 }

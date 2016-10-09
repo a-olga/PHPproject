@@ -110,3 +110,13 @@ a.desc:after {
     text-decoration: none;
 }
 
+.view-image {
+    display: inline-block;
+    padding: 20px;
+}
+
+.delete-image-button {
+    display: block;
+    margin: 5px;
+}
+

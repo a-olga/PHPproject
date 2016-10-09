@@ -4,7 +4,8 @@ use yii\grid\GridView;
 use yii\widgets\ListView;
 use yii\helpers\HtmlPurifier;
 use yii\widgets\DetailView;
-use yii\bootstrap\Carousel;
+use common\widgets\Slider;
+use common\models\Image;
 ?>
 
 <?php
@@ -27,7 +28,7 @@ use yii\bootstrap\Carousel;
     </div>
     <?= Html::button(
         Html::tag('span', '', ['class' => 'glyphicon glyphicon-shopping-cart'])
-        .' Add to cart', ['class' => 'add-to-cart btn btn-success']);
+        .' Add to cart', ['id' => $model->id, 'class' => 'add-to-cart btn btn-success']);
     ?>
 
     <?php
@@ -39,13 +40,13 @@ use yii\bootstrap\Carousel;
             }
             return $itemArray;
         } else {
-            return [['content' => Html::img('../../backend/web/uploads/no_image.png')]];
+            return [['content' => Html::img(Image::NO_IMAGE_URL)]];
         }
     }
     ?>
 
 
-    <?= Carousel::widget([
+    <?= Slider::widget([
         'items'=>  getImagesForSlider($model),
         'options' => [
             'data-interval' => true,
