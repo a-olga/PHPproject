@@ -47,16 +47,10 @@ class Category extends CategoryGii
         $this->save();
     }
 
-//    public function getProducts()
-//    {
-//        return $this->hasMany(Product::className(), ['category_id' => 'id'])->where(['status' => Product::STATUS_ACTIVE]);
-//    }
-
     public static function getList()
     {
         $categoryArray = self::find()
             ->select(['id', 'parent_id', 'name'])
-//            ->where(['status' => self::STATUS_ACTIVE])
             ->orderBy('parent_id ASC')
             ->asArray()
             ->all();
@@ -66,6 +60,16 @@ class Category extends CategoryGii
         }
         return $categories;
     }
-    
+
+    public static function isParent($categoryId)
+    {
+        $categoryList = self::getList();
+        if (isset($categoryList[$categoryId])){
+            return TRUE;
+        }
+        else{
+            return FALSE;
+        }
+    }
     
 }

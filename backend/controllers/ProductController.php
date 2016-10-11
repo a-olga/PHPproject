@@ -2,7 +2,6 @@
 
 namespace backend\controllers;
 
-use common\models\ProductSearchInactive;
 use Yii;
 use common\models\Product;
 use common\models\Image;

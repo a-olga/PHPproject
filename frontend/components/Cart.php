@@ -4,6 +4,7 @@ use Yii;
 use yii\base\Component;
 use common\models\Product;
 
+
 /**
  * Class Cart
  * @package frontend\components
@@ -68,8 +69,10 @@ class Cart extends Component
         if(Yii::$app->session->get('cart')){
             $cart = Yii::$app->session['cart'];
             $productsId = [];
-            for($i = 0; $i<count($cart); $i++){
+            for($i = 0; $i<=max(array_keys($cart)); $i++) {
+                if (isset($cart[$i])) {
                 array_push($productsId, $cart[$i]['productId']);
+                }
             }
             return $productsId;
         }
@@ -81,6 +84,18 @@ class Cart extends Component
         Yii::$app->session->remove('cart');
     }
 
+    public function delete($productId)
+    {
+        $cart = Yii::$app->session['cart'];
+        for($i = 0; $i<count($cart); $i++){
+            if($cart[$i]['productId'] == $productId){
+                unset($_SESSION['cart'][$i]);
+                return Yii::$app->session['cart'];
+            }
+
+        }
+        return NULL;
+    }
 
 
 }

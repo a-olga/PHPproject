@@ -76,8 +76,4 @@ class Image extends ImageGii
         $this->save();
     }
 
-//    public function getProduct()
-//    {
-//        return $this->hasOne(Product::className(), ['id' => 'product_id'])->where(['status' => Product::STATUS_ACTIVE]);
-//    }
 }

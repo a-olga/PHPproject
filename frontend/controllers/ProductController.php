@@ -84,6 +84,8 @@ class ProductController extends Controller
             } else {
                 throw new NotFoundHttpException('The requested page does not exist.');
             }
+        } else {
+            throw new NotFoundHttpException('The requested page does not exist.');
         }
     }
 }

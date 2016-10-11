@@ -91,21 +91,9 @@ class Product extends ProductGii
         $this->save();
     }
 
-//    public function getImages()
-//    {
-//        return $this->hasMany(Image::className(), ['product_id' => 'id'])->where(['status' => Image::STATUS_ACTIVE]);
-//    }
-
 //    public function getInactiveImages()
 //    {
 //        return $this->hasMany(Image::className(), ['product_id' => 'id'])->where(['status' => Image::STATUS_INACTIVE]);
 //    }
 
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-//    public function getCategory()
-//    {
-//        return $this->hasOne(Category::className(), ['id' => 'category_id'])->where(['status' => Category::STATUS_ACTIVE]);
-//    }
 }

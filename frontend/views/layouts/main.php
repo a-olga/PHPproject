@@ -73,29 +73,40 @@ AppAsset::register($this);
             Html::tag('span', '', ['class' => 'cart glyphicon glyphicon-shopping-cart']) . ' '
                 . Html::tag('span', Cart::getStatus(), ['class' => 'cart-status']) . '&nbsp;&nbsp;&nbsp;&nbsp;',
                 Url::to(['/cart/index']))?>
-        <?=Html::a(Html::tag('span', '', ['class' => 'glyphicon glyphicon-trash empty-cart']),  Url::to(['cart/empty-cart']))?>
+        <?=Html::a(Html::tag('span', '', ['class' => 'glyphicon glyphicon-trash empty-cart']),  Url::to(['cart/empty-cart']),
+            [
+                'data' => [
+                    'confirm' => 'Are you sure you want to empty your cart?',
+                    'method' => 'post',
+                ],
+            ])?>
     </div>
 
     <div class="container">
         <?= Breadcrumbs::widget([
-            'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
-        ]) ?>
+            'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],]) ?>
         <?= Alert::widget() ?>
 
             <div class="row">
                 <div class="col-md-3">
                     <div class = "category-list">
                         <?php
+                        
                         function viewCategories($categories, $parent_id = 0){
                             if(is_array($categories) and isset($categories[$parent_id])){
                                 $html = '<ul  class="category-parent">';
                                 foreach($categories[$parent_id] as $category){
-                                    $html .= '<li class="category-item">'. Html::a($category['name'], Url::to([
-                                            'product/index',
-                                            "ProductSearch" =>
-                                                ['category_id' => $category['id']]
-                                            
-                                        ]));
+                                    if(Category::isParent($category['id'])){
+                                        $html .= '<li class="category-item">' . Html::a($category['name'], [
+                                                'category/index', 'id' => $category['id']]);
+                                    } else {
+                                        $html .= '<li class="category-item">' . Html::a($category['name'], Url::to([
+                                                'product/index',
+                                                "ProductSearch" =>
+                                                    ['category_id' => $category['id']]
+
+                                            ]));
+                                    }
                                     $html .=  viewCategories($categories, $category['id']);
                                     $html .= '</li>';
                                 }
@@ -104,6 +115,7 @@ AppAsset::register($this);
                             else return null;
                             return $html;
                         }
+
                         echo viewCategories(Category::getList());
                         ?>
                     </div>

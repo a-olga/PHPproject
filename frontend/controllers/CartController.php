@@ -42,6 +42,7 @@ class CartController extends Controller
     public function actionDeleteFromCart()
     {
         $postData = Yii::$app->request->post();
+        $this->redirect(Yii::$app->request->referrer);
         return json_encode([
             'success' => Yii::$app->cart->delete($postData['product_id']),
             'cartStatus' => Yii::$app->cart->status

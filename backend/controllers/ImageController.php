@@ -5,7 +5,6 @@ namespace backend\controllers;
 use Yii;
 use common\models\Image;
 use common\models\ImageSearch;
-use common\models\ImageSearchInactive;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
